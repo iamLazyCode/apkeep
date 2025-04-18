@@ -6,6 +6,8 @@ pub enum DownloadSource {
     GooglePlay,
     FDroid,
     HuaweiAppGallery,
+    APKCombo,     // Add this line
+    APKMirror,    // Add this line
 }
 
 impl std::fmt::Display for DownloadSource {
