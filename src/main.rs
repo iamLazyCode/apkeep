@@ -142,7 +142,6 @@ use download_sources::fdroid;
 use download_sources::apkpure;
 use download_sources::huawei_app_gallery;
 use download_sources::apkcombo;
-use download_sources::apkmirror;
 
 type CSVList = Vec<(String, Option<String>)>;
 fn fetch_csv_list(csv: &str, field: usize, version_field: Option<usize>) -> Result<CSVList, Box<dyn Error>> {
@@ -281,9 +280,6 @@ async fn main() {
             DownloadSource::APKCombo => {
                 apkcombo::list_versions(list, options).await;
             }
-            DownloadSource::APKMirror => {
-                apkmirror::list_versions(list, options).await;
-            }
         }
     } else {
         let parallel = matches.get_one::<usize>("parallel").map(|v| *v).unwrap();
@@ -391,9 +387,6 @@ async fn main() {
             }
             DownloadSource::APKCombo => {
                 apkcombo::download_apps(list, parallel, sleep_duration, &outpath.unwrap(), options).await;
-            }
-            DownloadSource::APKMirror => {
-                apkmirror::download_apps(list, parallel, sleep_duration, &outpath.unwrap(), options).await;
             }
         }
     }
