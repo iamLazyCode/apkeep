@@ -204,18 +204,17 @@ async fn download_app(
         header.to_str().ok().and_then(|s| {
             let re = Regex::new(r#"filename=(?:"([^"]+)"|([^;]+))"#).unwrap();
             re.captures(s).map(|cap| {
-                cap.get(1).unwrap_or_else(|| cap.get(2).unwrap()).as_str()
+                cap.get(1).unwrap_or_else(|| cap.get(2).unwrap()).as_str().to_string()
             })
         })
-    }) // <-- This is probably where the issue is
+    })
     .unwrap_or_else(|| {
         if let Some(v) = version {
             format!("{}-{}.apk", app_id, v)
         } else {
             format!("{}.apk", app_id)
         }
-    })
-    .to_string();
+    });
     
     let output_file_path = output_path.join(&filename);
     
