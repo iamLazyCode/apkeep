@@ -198,23 +198,23 @@ async fn download_app(
     
     // Generate filename - either from response or use app_id with version
     let filename = response
-    .headers()
-    .get("content-disposition")
-    .and_then(|header| {
-        header.to_str().ok().and_then(|s| {
-            let re = Regex::new(r#"filename=(?:"([^"]+)"|([^;]+))"#).unwrap();
-            re.captures(s).map(|cap| {
-                cap.get(1).unwrap_or_else(|| cap.get(2).unwrap()).as_str().to_string()
+        .headers()
+        .get("content-disposition")
+        .and_then(|header| {
+            header.to_str().ok().and_then(|s| {
+                let re = Regex::new(r#"filename=(?:"([^"]+)"|([^;]+))"#).unwrap();
+                re.captures(s).map(|cap| {
+                    cap.get(1).unwrap_or_else(|| cap.get(2).unwrap()).as_str().to_string()
+                })
             })
         })
-    })
-    .unwrap_or_else(|| {
-        if let Some(v) = version {
-            format!("{}-{}.apk", app_id, v)
-        } else {
-            format!("{}.apk", app_id)
-        }
-    });
+        .unwrap_or_else(|| {
+            if let Some(v) = version {
+                format!("{}-{}.apk", app_id, v)
+            } else {
+                format!("{}.apk", app_id)
+            }
+        });
     
     let output_file_path = output_path.join(&filename);
     
